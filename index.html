@@ -5,7 +5,6 @@
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-image-aframe.prod.js"></script>
     <style>
-      /* Garante que o usuário saiba que pode clicar e evita zoom duplo no iOS */
       .clickable { cursor: pointer; touch-action: manipulation; }
     </style>
   </head>
@@ -34,8 +33,9 @@
             <a-plane src="#img-1" position="0 0.3 0" height="0.9" width="1.2"></a-plane>
             
             <a-entity position="0 -0.3 0.1">
-                <a-plane color="#212529" width="1.2" height="0.3" opacity="0.9"></a-plane>
+                <a-plane color="#0A2A43" width="1.2" height="0.3" opacity="0.95"></a-plane>
                 <a-text value="Em 1937, iniciou-se a construção de uma nova e maior matriz em alvenaria, que foi inaugurada em 24 de outubro de 1943, a igreja foi demolida em junho de 1968." 
+                        color="#F2F5F9"
                         align="center" width="1.1" wrap-count="45" position="0 0 0.01"></a-text>
             </a-entity>
         </a-entity>
@@ -44,20 +44,21 @@
              <a-plane src="#img-2" position="0 0.3 0" height="0.9" width="1.2"></a-plane>
             
             <a-entity position="0 -0.3 0.1">
-                <a-plane color="#212529" width="1.2" height="0.3" opacity="0.9"></a-plane>
+                <a-plane color="#0A2A43" width="1.2" height="0.3" opacity="0.95"></a-plane>
                 <a-text value="A Catedral Metropolitana de Londrina, dedicada ao Sagrado Coração de Jesus, foi inaugurada em 24 de dezembro de 1972, com uma cerimônia presidida por Dom Geraldo Fernandes." 
+                        color="#F2F5F9"
                         align="center" width="1.1" wrap-count="45" position="0 0 0.01"></a-text>
             </a-entity>
         </a-entity>
 
         <a-entity id="btn-1" class="clickable" position="-0.3 -0.65 0.2">
-            <a-plane color="#FF6B6B" width="0.55" height="0.2" class="clickable" opacity="1"></a-plane>
-            <a-text value="Ver Passado" align="center" width="1.8" position="0 0 0.01"></a-text>
+            <a-plane color="#8B6F47" width="0.55" height="0.2" class="clickable" opacity="1"></a-plane>
+            <a-text value="Ver Passado" color="#F2F5F9" align="center" width="1.8" position="0 0 0.01"></a-text>
         </a-entity>
 
         <a-entity id="btn-2" class="clickable" position="0.3 -0.65 0.2">
-            <a-plane color="#4ECDC4" width="0.55" height="0.2" class="clickable" opacity="1"></a-plane>
-            <a-text value="Ver Catedral" align="center" width="1.8" position="0 0 0.01"></a-text>
+            <a-plane color="#C9A66B" width="0.55" height="0.2" class="clickable" opacity="1"></a-plane>
+            <a-text value="Ver Catedral" color="#0A2A43" align="center" width="1.8" position="0 0 0.01"></a-text>
         </a-entity>
 
       </a-entity>
@@ -69,13 +70,13 @@
       const grupo1 = document.querySelector("#grupo-1");
       const grupo2 = document.querySelector("#grupo-2");
 
-      // Cores atualizadas para o feedback visual funcionar corretamente
-      const corBtn1 = "#FF6B6B";
-      const corBtn2 = "#4ECDC4";
+      // Cores atualizadas para o feedback visual
+      const corBtn1 = "#8B6F47"; // Sépia
+      const corBtn2 = "#C9A66B"; // Dourado
 
       function feedbackClique(element, corOriginal) {
         const plane = element.querySelector("a-plane");
-        plane.setAttribute("color", "white"); 
+        plane.setAttribute("color", "#F2F5F9"); // Pisca Branco Gelo
         setTimeout(() => {
             plane.setAttribute("color", corOriginal); 
         }, 150);
