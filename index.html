@@ -4,6 +4,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-image-aframe.prod.js"></script>
+    <style>
+      /* Garante que o usuário saiba que pode clicar */
+      .clickable { cursor: pointer; }
+    </style>
   </head>
   <body>
     <a-scene mindar-image="imageTargetSrc: ./targets.mind; filterMinCF:0.0001; filterBeta: 0.001;" 
@@ -31,7 +35,7 @@
             <a-entity position="0.7 0 0">
                 <a-plane color="black" width="1.3" height="1" opacity="0.8"></a-plane>
                 <a-text value="CENARIO 1:\nA antiga Igreja Matriz foi demolida em 1968." 
-                        align="left" width="1.1" wrap-count="25" position="0 0 0.01"></a-text>
+                        align="center" width="1.1" wrap-count="25" position="0 0 0.01"></a-text>
             </a-entity>
         </a-entity>
 
@@ -39,18 +43,18 @@
             <a-plane src="#img-2" position="-0.6 0 0" height="1" width="1"></a-plane>
             <a-entity position="0.7 0 0">
                 <a-plane color="#003366" width="1.3" height="1" opacity="0.8"></a-plane>
-                <a-text value="CENARIO 2:\nProjeto futurista proposto para o centro da cidade em 2030." 
-                        align="left" width="1.1" wrap-count="25" position="0 0 0.01"></a-text>
+                <a-text value="CENARIO 2:\nProjeto futurista para 2030." 
+                        align="center" width="1.1" wrap-count="25" position="0 0 0.01"></a-text>
             </a-entity>
         </a-entity>
 
-        <a-entity id="btn-1" class="clickable" position="-0.3 -0.8 0.1">
-            <a-plane color="green" width="0.5" height="0.2"></a-plane>
+        <a-entity id="btn-1" class="clickable" position="-0.3 -0.7 0.2">
+            <a-plane color="green" width="0.5" height="0.2" class="clickable"></a-plane>
             <a-text value="Ver Antigo" align="center" width="2" position="0 0 0.01"></a-text>
         </a-entity>
 
-        <a-entity id="btn-2" class="clickable" position="0.3 -0.8 0.1">
-            <a-plane color="red" width="0.5" height="0.2"></a-plane>
+        <a-entity id="btn-2" class="clickable" position="0.3 -0.7 0.2">
+            <a-plane color="red" width="0.5" height="0.2" class="clickable"></a-plane>
             <a-text value="Ver Futuro" align="center" width="2" position="0 0 0.01"></a-text>
         </a-entity>
 
@@ -58,24 +62,33 @@
     </a-scene>
 
     <script>
-      // Pegar os elementos do HTML
       const botao1 = document.querySelector("#btn-1");
       const botao2 = document.querySelector("#btn-2");
       const grupo1 = document.querySelector("#grupo-1");
       const grupo2 = document.querySelector("#grupo-2");
 
-      // Quando clicar no Botão 1
+      // Função auxiliar para piscar o botão (feedback visual)
+      function piscarBotao(element) {
+        const plane = element.querySelector("a-plane");
+        const corOriginal = plane.getAttribute("color");
+        plane.setAttribute("color", "white"); // Pisca branco
+        setTimeout(() => {
+            plane.setAttribute("color", corOriginal); // Volta a cor
+        }, 200);
+      }
+
       botao1.addEventListener('click', function (evt) {
         console.log("Botão 1 clicado");
-        grupo1.setAttribute("visible", true);  // Mostra grupo 1
-        grupo2.setAttribute("visible", false); // Esconde grupo 2
+        piscarBotao(botao1);
+        grupo1.setAttribute("visible", true);
+        grupo2.setAttribute("visible", false);
       });
 
-      // Quando clicar no Botão 2
       botao2.addEventListener('click', function (evt) {
         console.log("Botão 2 clicado");
-        grupo1.setAttribute("visible", false); // Esconde grupo 1
-        grupo2.setAttribute("visible", true);  // Mostra grupo 2
+        piscarBotao(botao2);
+        grupo1.setAttribute("visible", false);
+        grupo2.setAttribute("visible", true);
       });
     </script>
   </body>
