@@ -5,7 +5,8 @@
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-image-aframe.prod.js"></script>
     <style>
-      .clickable { cursor: pointer; }
+      /* Garante que o usuário saiba que pode clicar e evita zoom duplo no iOS */
+      .clickable { cursor: pointer; touch-action: manipulation; }
     </style>
   </head>
   <body>
@@ -29,32 +30,34 @@
 
       <a-entity mindar-image-target="targetIndex: 0">
         
-        <a-entity id="grupo-1" visible="true">
-            <a-plane src="#img-1" position="-0.6 0 0" height="1" width="1"></a-plane>
-            <a-entity position="0.7 0 0">
-                <a-plane color="black" width="1.3" height="1" opacity="0.8"></a-plane>
-                <a-text value="CENARIO 1:\nA antiga Igreja Matriz foi demolida em 1968." 
-                        align="center" width="1.1" wrap-count="25" position="0 0 0.01"></a-text>
+        <a-entity id="grupo-1" visible="false">
+            <a-plane src="#img-1" position="0 0.3 0" height="0.9" width="1.2"></a-plane>
+            
+            <a-entity position="0 -0.3 0.1">
+                <a-plane color="black" width="1.2" height="0.3" opacity="0.8"></a-plane>
+                <a-text value="Antiga Matriz (1968): Demolida para dar lugar à atual catedral." 
+                        align="center" width="1.1" wrap-count="35" position="0 0 0.01"></a-text>
             </a-entity>
         </a-entity>
 
         <a-entity id="grupo-2" visible="false">
-            <a-plane src="#img-2" position="-0.6 0 0" height="1" width="1"></a-plane>
-            <a-entity position="0.7 0 0">
-                <a-plane color="#003366" width="1.3" height="1" opacity="0.8"></a-plane>
-                <a-text value="CENARIO 2:\nProjeto futurista para 2030." 
-                        align="center" width="1.1" wrap-count="25" position="0 0 0.01"></a-text>
+             <a-plane src="#img-2" position="0 0.3 0" height="0.9" width="1.2"></a-plane>
+            
+            <a-entity position="0 -0.3 0.1">
+                <a-plane color="#003366" width="1.2" height="0.3" opacity="0.8"></a-plane>
+                <a-text value="Futuro (2030): Proposta de revitalização do centro histórico." 
+                        align="center" width="1.1" wrap-count="35" position="0 0 0.01"></a-text>
             </a-entity>
         </a-entity>
 
-        <a-entity id="btn-1" class="clickable" position="-0.3 -0.7 0.2">
-            <a-plane color="green" width="0.5" height="0.2" class="clickable"></a-plane>
-            <a-text value="Ver Antigo" align="center" width="2" position="0 0 0.01"></a-text>
+        <a-entity id="btn-1" class="clickable" position="-0.3 -0.65 0.2">
+            <a-plane color="#28a745" width="0.55" height="0.2" class="clickable" opacity="0.9"></a-plane>
+            <a-text value="Ver Passado" align="center" width="1.8" position="0 0 0.01"></a-text>
         </a-entity>
 
-        <a-entity id="btn-2" class="clickable" position="0.3 -0.7 0.2">
-            <a-plane color="red" width="0.5" height="0.2" class="clickable"></a-plane>
-            <a-text value="Ver Futuro" align="center" width="2" position="0 0 0.01"></a-text>
+        <a-entity id="btn-2" class="clickable" position="0.3 -0.65 0.2">
+            <a-plane color="#007bff" width="0.55" height="0.2" class="clickable" opacity="0.9"></a-plane>
+            <a-text value="Ver Futuro" align="center" width="1.8" position="0 0 0.01"></a-text>
         </a-entity>
 
       </a-entity>
@@ -66,26 +69,23 @@
       const grupo1 = document.querySelector("#grupo-1");
       const grupo2 = document.querySelector("#grupo-2");
 
-      // Função auxiliar para piscar o botão (feedback visual)
-      function piscarBotao(element) {
+      // Função de feedback visual do clique
+      function feedbackClique(element, corOriginal) {
         const plane = element.querySelector("a-plane");
-        const corOriginal = plane.getAttribute("color");
-        plane.setAttribute("color", "white"); // Pisca branco
+        plane.setAttribute("color", "white"); 
         setTimeout(() => {
-            plane.setAttribute("color", corOriginal); // Volta a cor
-        }, 200);
+            plane.setAttribute("color", corOriginal); 
+        }, 150);
       }
 
       botao1.addEventListener('click', function (evt) {
-        console.log("Botão 1 clicado");
-        piscarBotao(botao1);
+        feedbackClique(botao1, "#28a745"); // Pisca verde original
         grupo1.setAttribute("visible", true);
         grupo2.setAttribute("visible", false);
       });
 
       botao2.addEventListener('click', function (evt) {
-        console.log("Botão 2 clicado");
-        piscarBotao(botao2);
+        feedbackClique(botao2, "#007bff"); // Pisca azul original
         grupo1.setAttribute("visible", false);
         grupo2.setAttribute("visible", true);
       });
