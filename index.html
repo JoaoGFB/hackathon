@@ -4,8 +4,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-image-aframe.prod.js"></script>
+
+    <style>
+      /* Estilo dos Botões Fixos na Tela */
+      .ui-container {
+        position: fixed;
+        bottom: 20px;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 15px; /* Espaço entre botões */
+        z-index: 999; /* Garante que fique em cima do vídeo */
+      }
+
+      .btn {
+        padding: 12px 24px;
+        background-color: #007bff; /* Azul */
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: bold;
+        box-shadow: 0px 4px 6px rgba(0,0,0,0.3);
+        cursor: pointer;
+      }
+
+      .btn:active {
+        transform: scale(0.95); /* Efeito de clique */
+      }
+
+      .btn-secondary {
+        background-color: #28a745; /* Verde */
+      }
+    </style>
   </head>
   <body>
+
+    <div class="ui-container">
+      <button id="btn-antigo" class="btn">Ver Passado</button>
+      <button id="btn-futuro" class="btn btn-secondary">Ver Futuro</button>
+    </div>
+
     <a-scene mindar-image="imageTargetSrc: ./targets.mind; filterMinCF:0.0001; filterBeta: 0.001;" 
              color-space="sRGB" 
              renderer="colorManagement: true, physicallyCorrectLights" 
@@ -13,16 +53,11 @@
              device-orientation-permission-ui="enabled: false">
 
       <a-assets>
-        <img id="img-1" src="referencia.png" />
-        <img id="img-2" src="referencia2.jpg" /> 
+        <img id="img-1" src="./referencia.png" />
+        <img id="img-2" src="./referencia2.png" /> 
       </a-assets>
 
-      <a-camera position="0 0 0" look-controls="enabled: false">
-        <a-entity position="0 0 -1"
-                  cursor="fuse: false; rayOrigin: mouse;"
-                  raycaster="far: 10000; objects: .clickable">
-        </a-entity>
-      </a-camera>
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
       <a-entity mindar-image-target="targetIndex: 0">
         
@@ -44,38 +79,25 @@
             </a-entity>
         </a-entity>
 
-        <a-entity id="btn-1" class="clickable" position="-0.3 -0.8 0.1">
-            <a-plane color="green" width="0.5" height="0.2"></a-plane>
-            <a-text value="Ver Antigo" align="center" width="2" position="0 0 0.01"></a-text>
-        </a-entity>
-
-        <a-entity id="btn-2" class="clickable" position="0.3 -0.8 0.1">
-            <a-plane color="red" width="0.5" height="0.2"></a-plane>
-            <a-text value="Ver Futuro" align="center" width="2" position="0 0 0.01"></a-text>
-        </a-entity>
-
       </a-entity>
     </a-scene>
 
     <script>
-      // Pegar os elementos do HTML
-      const botao1 = document.querySelector("#btn-1");
-      const botao2 = document.querySelector("#btn-2");
+      const btnAntigo = document.querySelector("#btn-antigo");
+      const btnFuturo = document.querySelector("#btn-futuro");
       const grupo1 = document.querySelector("#grupo-1");
       const grupo2 = document.querySelector("#grupo-2");
 
-      // Quando clicar no Botão 1
-      botao1.addEventListener('click', function (evt) {
-        console.log("Botão 1 clicado");
-        grupo1.setAttribute("visible", true);  // Mostra grupo 1
-        grupo2.setAttribute("visible", false); // Esconde grupo 2
+      // Clique no botão PASSADO
+      btnAntigo.addEventListener('click', () => {
+        grupo1.setAttribute("visible", true);
+        grupo2.setAttribute("visible", false);
       });
 
-      // Quando clicar no Botão 2
-      botao2.addEventListener('click', function (evt) {
-        console.log("Botão 2 clicado");
-        grupo1.setAttribute("visible", false); // Esconde grupo 1
-        grupo2.setAttribute("visible", true);  // Mostra grupo 2
+      // Clique no botão FUTURO
+      btnFuturo.addEventListener('click', () => {
+        grupo1.setAttribute("visible", false);
+        grupo2.setAttribute("visible", true);
       });
     </script>
   </body>
