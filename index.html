@@ -6,6 +6,8 @@
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-image-aframe.prod.js"></script>
     <style>
       .clickable { cursor: pointer; touch-action: manipulation; }
+      /* Esconde o botão de VR do A-Frame que atrapalha no celular */
+      .a-enter-vr { display: none; }
     </style>
   </head>
   <body>
@@ -18,36 +20,31 @@
       <a-assets>
         <img id="img-1" src="./referencia.png" />
         <img id="img-2" src="./referencia2.png" /> 
+        <img id="img-360" crossorigin="anonymous" src="https://live.staticflickr.com/65535/49927090358_a3135592b1_k.jpg" />
       </a-assets>
 
-      <a-camera position="0 0 0" look-controls="enabled: false">
+      <a-camera position="0 0 0" look-controls="enabled: true">
         <a-entity position="0 0 -1"
                   cursor="fuse: false; rayOrigin: mouse;"
                   raycaster="far: 10000; objects: .clickable">
         </a-entity>
       </a-camera>
 
+      <a-sky id="mundo-360" src="#img-360" visible="false" rotation="0 -90 0"></a-sky>
+      
+      <a-entity id="texto-360" visible="false" position="0 0 -2">
+           <a-plane color="#0A2A43" width="1.5" height="0.4" opacity="0.9"></a-plane>
+           <a-text id="txt-conteudo-360" value="" align="center" width="1.4" wrap-count="45" position="0 0 0.01"></a-text>
+      </a-entity>
+
+
       <a-entity mindar-image-target="targetIndex: 0">
         
-        <a-entity id="grupo-1" visible="false">
-            <a-plane src="#img-1" position="0 0.3 0" height="0.9" width="1.2"></a-plane>
-            <a-entity position="0 -0.3 0.1">
-                <a-plane color="#0A2A43" width="1.2" height="0.3" opacity="0.95"></a-plane>
-                <a-text id="txt-conteudo-1"
-                        value="" 
-                        color="#F2F5F9"
-                        align="center" width="1.1" wrap-count="45" position="0 0 0.01"></a-text>
-            </a-entity>
-        </a-entity>
-
-        <a-entity id="grupo-2" visible="false">
+        <a-entity id="grupo-2-ar" visible="false">
              <a-plane src="#img-2" position="0 0.3 0" height="0.9" width="1.2"></a-plane>
             <a-entity position="0 -0.3 0.1">
                 <a-plane color="#0A2A43" width="1.2" height="0.3" opacity="0.95"></a-plane>
-                <a-text id="txt-conteudo-2"
-                        value="" 
-                        color="#F2F5F9"
-                        align="center" width="1.1" wrap-count="45" position="0 0 0.01"></a-text>
+                <a-text id="txt-conteudo-2" value="" align="center" width="1.1" wrap-count="45" position="0 0 0.01"></a-text>
             </a-entity>
         </a-entity>
 
@@ -56,12 +53,10 @@
                  <a-plane color="#0A2A43" width="1.2" height="0.2" opacity="0.9"></a-plane>
                  <a-text value="Select Language / Selecione" align="center" width="1.5" position="0 0 0.01"></a-text>
             </a-entity>
-
             <a-entity id="btn-pt" class="clickable" position="-0.3 -0.3 0.2">
                 <a-plane color="#8B6F47" width="0.55" height="0.2" class="clickable" opacity="1"></a-plane>
                 <a-text value="Portugues" color="#F2F5F9" align="center" width="1.8" position="0 0 0.01"></a-text>
             </a-entity>
-
             <a-entity id="btn-en" class="clickable" position="0.3 -0.3 0.2">
                 <a-plane color="#C9A66B" width="0.55" height="0.2" class="clickable" opacity="1"></a-plane>
                 <a-text value="English" color="#0A2A43" align="center" width="1.8" position="0 0 0.01"></a-text>
@@ -71,12 +66,11 @@
         <a-entity id="menu-principal" visible="false">
             <a-entity id="btn-1" class="clickable" position="-0.3 -0.65 0.2">
                 <a-plane color="#8B6F47" width="0.55" height="0.2" class="clickable" opacity="1"></a-plane>
-                <a-text id="txt-btn-1" value="CARREGANDO..." color="#F2F5F9" align="center" width="1.8" position="0 0 0.01"></a-text>
+                <a-text id="txt-btn-1" value="..." color="#F2F5F9" align="center" width="1.8" position="0 0 0.01"></a-text>
             </a-entity>
-
             <a-entity id="btn-2" class="clickable" position="0.3 -0.65 0.2">
                 <a-plane color="#C9A66B" width="0.55" height="0.2" class="clickable" opacity="1"></a-plane>
-                <a-text id="txt-btn-2" value="CARREGANDO..." color="#0A2A43" align="center" width="1.8" position="0 0 0.01"></a-text>
+                <a-text id="txt-btn-2" value="..." color="#0A2A43" align="center" width="1.8" position="0 0 0.01"></a-text>
             </a-entity>
         </a-entity>
 
@@ -87,66 +81,58 @@
       // === 1. DICIONÁRIO DE TEXTOS ===
       const traducoes = {
           'pt': {
-              btn1: "Catedral Antiga",
-              btn2: "Nova Catedral",
-              desc1: "Em 1937, iniciou-se a construcao de uma nova e maior matriz em alvenaria, que foi inaugurada em 24 de outubro de 1943, a igreja foi demolida em junho de 1968.",
-              desc2: "A Catedral Metropolitana de Londrina, dedicada ao Sagrado Coracao de Jesus, foi inaugurada em 24 de dezembro de 1972, com uma cerimonia presidida por Dom Geraldo Fernandes."
+              btn1: "Entrar na Antiga (360)", // Mudei o texto para indicar imersão
+              btn2: "Ver Nova (AR)",
+              desc360: "Voce esta dentro da representacao da Antiga Matriz (1943-1968). Gire o celular para explorar.",
+              desc2: "A Catedral Metropolitana atual, inaugurada em 1972. Projeto moderno de Edoardo Rosso."
           },
           'en': {
-              btn1: "Old Cathedral",
-              btn2: "New Cathedral",
-              desc1: "In 1937, construction began on a new and larger masonry parish church, inaugurated on October 24, 1943. The church was demolished in June 1968.",
-              desc2: "The Metropolitan Cathedral of Londrina, dedicated to the Sacred Heart of Jesus, was inaugurated on December 24, 1972, with a ceremony presided over by Dom Geraldo Fernandes."
+              btn1: "Enter Old Church (360)",
+              btn2: "See New (AR)",
+              desc360: "You are inside the representation of the Old Cathedral (1943-1968). Rotate your phone to explore.",
+              desc2: "The current Metropolitan Cathedral, inaugurated in 1972. Modern design by Edoardo Rosso."
           }
       };
 
-      // Referências dos Elementos
+      // Referências
       const menuIdioma = document.querySelector("#menu-idioma");
       const menuPrincipal = document.querySelector("#menu-principal");
-      
       const btnPT = document.querySelector("#btn-pt");
       const btnEN = document.querySelector("#btn-en");
-      
       const btn1 = document.querySelector("#btn-1");
       const btn2 = document.querySelector("#btn-2");
-      const grupo1 = document.querySelector("#grupo-1");
-      const grupo2 = document.querySelector("#grupo-2");
-
-      const txtConteudo1 = document.querySelector("#txt-conteudo-1");
+      
+      // Novos elementos 360 e AR
+      const mundo360 = document.querySelector("#mundo-360");
+      const texto360Group = document.querySelector("#texto-360");
+      const txtConteudo360 = document.querySelector("#txt-conteudo-360");
+      const grupo2AR = document.querySelector("#grupo-2-ar");
+      
       const txtConteudo2 = document.querySelector("#txt-conteudo-2");
       const txtBtn1 = document.querySelector("#txt-btn-1");
       const txtBtn2 = document.querySelector("#txt-btn-2");
+      
+      let idiomaAtual = 'pt'; // Padrão
 
       // === 2. LÓGICA DE SELEÇÃO DE IDIOMA ===
-      
       function selecionarIdioma(lang) {
-          // Preenche os textos com base na língua escolhida
+          idiomaAtual = lang;
           txtBtn1.setAttribute("value", traducoes[lang].btn1);
           txtBtn2.setAttribute("value", traducoes[lang].btn2);
-          txtConteudo1.setAttribute("value", traducoes[lang].desc1);
+          // Já deixa os textos de conteúdo prontos
+          txtConteudo360.setAttribute("value", traducoes[lang].desc360);
           txtConteudo2.setAttribute("value", traducoes[lang].desc2);
 
-          // Esconde menu de idioma e mostra o principal
           menuIdioma.setAttribute("visible", false);
-          
-          // Move o menu de idioma para longe para evitar cliques acidentais
           menuIdioma.setAttribute("position", "0 100 0"); 
-
           menuPrincipal.setAttribute("visible", true);
       }
 
-      btnPT.addEventListener('click', function() {
-          feedbackClique(btnPT, "#8B6F47");
-          selecionarIdioma('pt');
-      });
-
-      btnEN.addEventListener('click', function() {
-          feedbackClique(btnEN, "#C9A66B");
-          selecionarIdioma('en');
-      });
+      btnPT.addEventListener('click', () => selecionarIdioma('pt'));
+      btnEN.addEventListener('click', () => selecionarIdioma('en'));
 
 
-      // === 3. LÓGICA PRINCIPAL (CENAS) ===
+      // === 3. LÓGICA PRINCIPAL (ALTERNAR MODOS) ===
       
       const corBtn1 = "#8B6F47"; 
       const corBtn2 = "#C9A66B"; 
@@ -154,21 +140,31 @@
       function feedbackClique(element, corOriginal) {
         const plane = element.querySelector("a-plane");
         plane.setAttribute("color", "#F2F5F9"); 
-        setTimeout(() => {
-            plane.setAttribute("color", corOriginal); 
-        }, 150);
+        setTimeout(() => { plane.setAttribute("color", corOriginal); }, 150);
       }
 
+      // CLIQUE NO BOTÃO 1: ATIVA MODO 360
       btn1.addEventListener('click', function (evt) {
         feedbackClique(btn1, corBtn1); 
-        grupo1.setAttribute("visible", true);
-        grupo2.setAttribute("visible", false);
+        
+        // Esconde o conteúdo AR da nova catedral
+        grupo2AR.setAttribute("visible", false);
+        
+        // Mostra o mundo 360 e seu texto
+        mundo360.setAttribute("visible", true);
+        texto360Group.setAttribute("visible", true);
       });
 
+      // CLIQUE NO BOTÃO 2: ATIVA MODO AR
       btn2.addEventListener('click', function (evt) {
         feedbackClique(btn2, corBtn2);
-        grupo1.setAttribute("visible", false);
-        grupo2.setAttribute("visible", true);
+
+        // Esconde o mundo 360
+        mundo360.setAttribute("visible", false);
+        texto360Group.setAttribute("visible", false);
+
+        // Mostra o conteúdo AR da nova catedral
+        grupo2AR.setAttribute("visible", true);
       });
     </script>
   </body>
