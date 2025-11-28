@@ -31,12 +31,15 @@
         
         <a-entity id="grupo-1" visible="false">
             <a-plane src="#img-1" position="0 0.3 0" height="0.9" width="1.2"></a-plane>
+            
+            <a-entity id="btn-360" class="clickable" position="0.4 0.65 0.1">
+                <a-plane color="#C9A66B" width="0.4" height="0.12" class="clickable" opacity="1"></a-plane>
+                <a-text id="txt-btn-360" value="Ver Interior" color="#0A2A43" align="center" width="1.5" position="0 0 0.01"></a-text>
+            </a-entity>
+
             <a-entity position="0 -0.3 0.1">
                 <a-plane color="#0A2A43" width="1.2" height="0.3" opacity="0.95"></a-plane>
-                <a-text id="txt-conteudo-1"
-                        value="" 
-                        color="#F2F5F9"
-                        align="center" width="1.1" wrap-count="45" position="0 0 0.01"></a-text>
+                <a-text id="txt-conteudo-1" value="" color="#F2F5F9" align="center" width="1.1" wrap-count="45" position="0 0 0.01"></a-text>
             </a-entity>
         </a-entity>
 
@@ -44,10 +47,7 @@
              <a-plane src="#img-2" position="0 0.3 0" height="0.9" width="1.2"></a-plane>
             <a-entity position="0 -0.3 0.1">
                 <a-plane color="#0A2A43" width="1.2" height="0.3" opacity="0.95"></a-plane>
-                <a-text id="txt-conteudo-2"
-                        value="" 
-                        color="#F2F5F9"
-                        align="center" width="1.1" wrap-count="45" position="0 0 0.01"></a-text>
+                <a-text id="txt-conteudo-2" value="" color="#F2F5F9" align="center" width="1.1" wrap-count="45" position="0 0 0.01"></a-text>
             </a-entity>
         </a-entity>
 
@@ -56,12 +56,10 @@
                  <a-plane color="#0A2A43" width="1.2" height="0.2" opacity="0.9"></a-plane>
                  <a-text value="Select Language / Selecione" align="center" width="1.5" position="0 0 0.01"></a-text>
             </a-entity>
-
             <a-entity id="btn-pt" class="clickable" position="-0.3 -0.3 0.2">
                 <a-plane color="#8B6F47" width="0.55" height="0.2" class="clickable" opacity="1"></a-plane>
                 <a-text value="Portugues" color="#F2F5F9" align="center" width="1.8" position="0 0 0.01"></a-text>
             </a-entity>
-
             <a-entity id="btn-en" class="clickable" position="0.3 -0.3 0.2">
                 <a-plane color="#C9A66B" width="0.55" height="0.2" class="clickable" opacity="1"></a-plane>
                 <a-text value="English" color="#0A2A43" align="center" width="1.8" position="0 0 0.01"></a-text>
@@ -71,12 +69,11 @@
         <a-entity id="menu-principal" visible="false">
             <a-entity id="btn-1" class="clickable" position="-0.3 -0.65 0.2">
                 <a-plane color="#8B6F47" width="0.55" height="0.2" class="clickable" opacity="1"></a-plane>
-                <a-text id="txt-btn-1" value="CARREGANDO..." color="#F2F5F9" align="center" width="1.8" position="0 0 0.01"></a-text>
+                <a-text id="txt-btn-1" value="..." color="#F2F5F9" align="center" width="1.8" position="0 0 0.01"></a-text>
             </a-entity>
-
             <a-entity id="btn-2" class="clickable" position="0.3 -0.65 0.2">
                 <a-plane color="#C9A66B" width="0.55" height="0.2" class="clickable" opacity="1"></a-plane>
-                <a-text id="txt-btn-2" value="CARREGANDO..." color="#0A2A43" align="center" width="1.8" position="0 0 0.01"></a-text>
+                <a-text id="txt-btn-2" value="..." color="#0A2A43" align="center" width="1.8" position="0 0 0.01"></a-text>
             </a-entity>
         </a-entity>
 
@@ -84,80 +81,67 @@
     </a-scene>
 
     <script>
-      // === 1. DICIONÁRIO DE TEXTOS ===
+      // === 1. TRADUÇÕES E REFERÊNCIAS ===
       const traducoes = {
           'pt': {
               btn1: "Catedral Antiga",
               btn2: "Nova Catedral",
+              btn360: "Ver Interior", // Texto em Português
               desc1: "Em 1937, iniciou-se a construcao de uma nova e maior matriz em alvenaria, que foi inaugurada em 24 de outubro de 1943, a igreja foi demolida em junho de 1968.",
               desc2: "A Catedral Metropolitana de Londrina, dedicada ao Sagrado Coracao de Jesus, foi inaugurada em 24 de dezembro de 1972, com uma cerimonia presidida por Dom Geraldo Fernandes."
           },
           'en': {
               btn1: "Old Cathedral",
               btn2: "New Cathedral",
+              btn360: "View Inside", // Texto em Inglês
               desc1: "In 1937, construction began on a new and larger masonry parish church, inaugurated on October 24, 1943. The church was demolished in June 1968.",
               desc2: "The Metropolitan Cathedral of Londrina, dedicated to the Sacred Heart of Jesus, was inaugurated on December 24, 1972, with a ceremony presided over by Dom Geraldo Fernandes."
           }
       };
 
-      // Referências dos Elementos
       const menuIdioma = document.querySelector("#menu-idioma");
       const menuPrincipal = document.querySelector("#menu-principal");
-      
       const btnPT = document.querySelector("#btn-pt");
       const btnEN = document.querySelector("#btn-en");
-      
       const btn1 = document.querySelector("#btn-1");
       const btn2 = document.querySelector("#btn-2");
       const grupo1 = document.querySelector("#grupo-1");
       const grupo2 = document.querySelector("#grupo-2");
-
       const txtConteudo1 = document.querySelector("#txt-conteudo-1");
       const txtConteudo2 = document.querySelector("#txt-conteudo-2");
       const txtBtn1 = document.querySelector("#txt-btn-1");
       const txtBtn2 = document.querySelector("#txt-btn-2");
+      const btn360 = document.querySelector("#btn-360");
+      const txtBtn360 = document.querySelector("#txt-btn-360");
 
-      // === 2. LÓGICA DE SELEÇÃO DE IDIOMA ===
-      
+      let idiomaSelecionado = 'pt';
+
+      // === 2. FUNÇÕES DE IDIOMA E NAVEGAÇÃO ===
       function selecionarIdioma(lang) {
-          // Preenche os textos com base na língua escolhida
+          idiomaSelecionado = lang;
           txtBtn1.setAttribute("value", traducoes[lang].btn1);
           txtBtn2.setAttribute("value", traducoes[lang].btn2);
           txtConteudo1.setAttribute("value", traducoes[lang].desc1);
           txtConteudo2.setAttribute("value", traducoes[lang].desc2);
+          txtBtn360.setAttribute("value", traducoes[lang].btn360);
 
-          // Esconde menu de idioma e mostra o principal
           menuIdioma.setAttribute("visible", false);
-          
-          // Move o menu de idioma para longe para evitar cliques acidentais
           menuIdioma.setAttribute("position", "0 100 0"); 
-
           menuPrincipal.setAttribute("visible", true);
       }
-
-      btnPT.addEventListener('click', function() {
-          feedbackClique(btnPT, "#8B6F47");
-          selecionarIdioma('pt');
-      });
-
-      btnEN.addEventListener('click', function() {
-          feedbackClique(btnEN, "#C9A66B");
-          selecionarIdioma('en');
-      });
-
-
-      // === 3. LÓGICA PRINCIPAL (CENAS) ===
-      
-      const corBtn1 = "#8B6F47"; 
-      const corBtn2 = "#C9A66B"; 
 
       function feedbackClique(element, corOriginal) {
         const plane = element.querySelector("a-plane");
         plane.setAttribute("color", "#F2F5F9"); 
-        setTimeout(() => {
-            plane.setAttribute("color", corOriginal); 
-        }, 150);
+        setTimeout(() => { plane.setAttribute("color", corOriginal); }, 150);
       }
+
+      // EVENT LISTENERS
+      btnPT.addEventListener('click', () => { feedbackClique(btnPT, "#8B6F47"); selecionarIdioma('pt'); });
+      btnEN.addEventListener('click', () => { feedbackClique(btnEN, "#C9A66B"); selecionarIdioma('en'); });
+
+      const corBtn1 = "#8B6F47"; 
+      const corBtn2 = "#C9A66B"; 
 
       btn1.addEventListener('click', function (evt) {
         feedbackClique(btn1, corBtn1); 
@@ -169,6 +153,20 @@
         feedbackClique(btn2, corBtn2);
         grupo1.setAttribute("visible", false);
         grupo2.setAttribute("visible", true);
+      });
+
+      // === 3. AQUI ESTÁ O SEU LINK DO KUULA ===
+      btn360.addEventListener('click', function(evt) {
+          console.log("Abrindo Kuula...");
+          const plane = btn360.querySelector("a-plane");
+          plane.setAttribute("color", "white");
+          setTimeout(() => { plane.setAttribute("color", "#C9A66B"); }, 150);
+
+          // Extraí o link direto do código que você mandou
+          // Adicionei fs=1 para abrir em tela cheia direto
+          const url360 = "https://kuula.co/share/collection/7HXQ6?fs=1"; 
+          
+          window.open(url360, '_blank');
       });
     </script>
   </body>
