@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>História da Catedral</title>
+    <style>
+        /* PALETA DE CORES 
+           Azul Profundo: #0A2A43
+           Dourado: #C9A66B
+           Sépia: #8B6F47
+           Branco Gelo: #F2F5F9
+        */
+        body {
+            background-color: #0A2A43;
+            color: #F2F5F9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 2px solid #C9A66B;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #C9A66B;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        h2 {
+            color: #C9A66B;
+            border-left: 5px solid #8B6F47;
+            padding-left: 10px;
+            margin-top: 40px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .img-container {
+            width: 100%;
+            height: 200px;
+            background-color: #000;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #8B6F47;
+        }
+
+        .img-container img {
+            width: 100%;
+            height: auto;
+        }
+
+        .btn-voltar {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #C9A66B;
+            color: #0A2A43;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 50px;
+            margin-top: 50px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        
+        .destaque {
+            color: #C9A66B;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Catedral de Londrina</h1>
+        <small>Patrimonio Histórico</small>
+    </header>
+
+    <section id="antiga">
+        <h2>A Antiga Matriz</h2>
+        <div class="img-container">
+            <img src="./referencia.png" alt="Igreja Antiga">
+        </div>
+        <p>
+            A construção da antiga Matriz marcou a consolidação de Londrina nas décadas de 30 e 40. 
+            Iniciada em <span class="destaque">1937</span>, foi um símbolo de fé e união da comunidade pioneira.
+        </p>
+        <p>
+            Sua arquitetura em alvenaria substituiu a primeira capela de madeira. Infelizmente, devido ao crescimento acelerado da cidade e a necessidade de um templo maior, ela foi demolida em junho de 1968, deixando saudades na memória coletiva da cidade.
+        </p>
+    </section>
+
+    <section id="nova">
+        <h2>A Nova Catedral</h2>
+        <div class="img-container">
+            <img src="./catedralnovadelondrina.png" alt="Catedral Nova">
+        </div>
+        <p>
+            Inaugurada no natal de <span class="destaque">1972</span>, a atual Catedral Metropolitana é um marco da arquitetura moderna.
+        </p>
+        <p>
+            Seu formato imponente, projetado por Edoardo Rosso, remete às mãos postas em oração ou a uma tenda bíblica. Dedicada ao Sagrado Coração de Jesus, ela domina a paisagem do centro da cidade e representa a modernidade do Norte do Paraná.
+        </p>
+    </section>
+
+    <a href="#" onclick="window.close();" class="btn-voltar">Voltar para Câmera</a>
+
+</body>
+</html>

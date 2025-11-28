@@ -31,23 +31,29 @@
         
         <a-entity id="grupo-1" visible="false">
             <a-plane src="#img-1" position="0 0.3 0" height="0.9" width="1.2"></a-plane>
+            
+            <a-entity id="btn-link-1" class="clickable" position="0.5 0.65 0.1">
+                <a-circle color="#C9A66B" radius="0.08" class="clickable" opacity="1"></a-circle>
+                <a-text value="+" color="#0A2A43" align="center" width="2" position="0 0 0.01"></a-text>
+            </a-entity>
+
             <a-entity position="0 -0.3 0.1">
                 <a-plane color="#0A2A43" width="1.2" height="0.3" opacity="0.95"></a-plane>
-                <a-text id="txt-conteudo-1"
-                        value="" 
-                        color="#F2F5F9"
-                        align="center" width="1.1" wrap-count="45" position="0 0 0.01"></a-text>
+                <a-text id="txt-conteudo-1" value="" color="#F2F5F9" align="center" width="1.1" wrap-count="45" position="0 0 0.01"></a-text>
             </a-entity>
         </a-entity>
 
         <a-entity id="grupo-2" visible="false">
              <a-plane src="#img-2" position="0 0.3 0" height="0.9" width="1.2"></a-plane>
+            
+             <a-entity id="btn-link-2" class="clickable" position="0.5 0.65 0.1">
+                <a-circle color="#C9A66B" radius="0.08" class="clickable" opacity="1"></a-circle>
+                <a-text value="+" color="#0A2A43" align="center" width="2" position="0 0 0.01"></a-text>
+            </a-entity>
+
             <a-entity position="0 -0.3 0.1">
                 <a-plane color="#0A2A43" width="1.2" height="0.3" opacity="0.95"></a-plane>
-                <a-text id="txt-conteudo-2"
-                        value="" 
-                        color="#F2F5F9"
-                        align="center" width="1.1" wrap-count="45" position="0 0 0.01"></a-text>
+                <a-text id="txt-conteudo-2" value="" color="#F2F5F9" align="center" width="1.1" wrap-count="45" position="0 0 0.01"></a-text>
             </a-entity>
         </a-entity>
 
@@ -56,12 +62,10 @@
                  <a-plane color="#0A2A43" width="1.2" height="0.2" opacity="0.9"></a-plane>
                  <a-text value="Select Language / Selecione" align="center" width="1.5" position="0 0 0.01"></a-text>
             </a-entity>
-
             <a-entity id="btn-pt" class="clickable" position="-0.3 -0.3 0.2">
                 <a-plane color="#8B6F47" width="0.55" height="0.2" class="clickable" opacity="1"></a-plane>
                 <a-text value="Portugues" color="#F2F5F9" align="center" width="1.8" position="0 0 0.01"></a-text>
             </a-entity>
-
             <a-entity id="btn-en" class="clickable" position="0.3 -0.3 0.2">
                 <a-plane color="#C9A66B" width="0.55" height="0.2" class="clickable" opacity="1"></a-plane>
                 <a-text value="English" color="#0A2A43" align="center" width="1.8" position="0 0 0.01"></a-text>
@@ -73,7 +77,6 @@
                 <a-plane color="#8B6F47" width="0.55" height="0.2" class="clickable" opacity="1"></a-plane>
                 <a-text id="txt-btn-1" value="CARREGANDO..." color="#F2F5F9" align="center" width="1.8" position="0 0 0.01"></a-text>
             </a-entity>
-
             <a-entity id="btn-2" class="clickable" position="0.3 -0.65 0.2">
                 <a-plane color="#C9A66B" width="0.55" height="0.2" class="clickable" opacity="1"></a-plane>
                 <a-text id="txt-btn-2" value="CARREGANDO..." color="#0A2A43" align="center" width="1.8" position="0 0 0.01"></a-text>
@@ -100,64 +103,50 @@
           }
       };
 
-      // Referências dos Elementos
       const menuIdioma = document.querySelector("#menu-idioma");
       const menuPrincipal = document.querySelector("#menu-principal");
-      
       const btnPT = document.querySelector("#btn-pt");
       const btnEN = document.querySelector("#btn-en");
-      
       const btn1 = document.querySelector("#btn-1");
       const btn2 = document.querySelector("#btn-2");
       const grupo1 = document.querySelector("#grupo-1");
       const grupo2 = document.querySelector("#grupo-2");
-
       const txtConteudo1 = document.querySelector("#txt-conteudo-1");
       const txtConteudo2 = document.querySelector("#txt-conteudo-2");
       const txtBtn1 = document.querySelector("#txt-btn-1");
       const txtBtn2 = document.querySelector("#txt-btn-2");
 
-      // === 2. LÓGICA DE SELEÇÃO DE IDIOMA ===
-      
+      // NOVOS BOTÕES DE LINK
+      const btnLink1 = document.querySelector("#btn-link-1");
+      const btnLink2 = document.querySelector("#btn-link-2");
+
+      // === 2. LÓGICA DE IDIOMA E INTERFACE ===
       function selecionarIdioma(lang) {
-          // Preenche os textos com base na língua escolhida
           txtBtn1.setAttribute("value", traducoes[lang].btn1);
           txtBtn2.setAttribute("value", traducoes[lang].btn2);
           txtConteudo1.setAttribute("value", traducoes[lang].desc1);
           txtConteudo2.setAttribute("value", traducoes[lang].desc2);
 
-          // Esconde menu de idioma e mostra o principal
           menuIdioma.setAttribute("visible", false);
-          
-          // Move o menu de idioma para longe para evitar cliques acidentais
           menuIdioma.setAttribute("position", "0 100 0"); 
-
           menuPrincipal.setAttribute("visible", true);
       }
 
-      btnPT.addEventListener('click', function() {
-          feedbackClique(btnPT, "#8B6F47");
-          selecionarIdioma('pt');
-      });
+      function feedbackClique(element, corOriginal) {
+        // Lógica simplificada para feedback visual em qualquer botão
+        let alvo = element.tagName === 'A-CIRCLE' ? element : element.querySelector("a-plane") || element.querySelector("a-circle");
+        if(alvo) {
+            let corAntiga = alvo.getAttribute("color");
+            alvo.setAttribute("color", "#F2F5F9");
+            setTimeout(() => { alvo.setAttribute("color", corOriginal); }, 150);
+        }
+      }
 
-      btnEN.addEventListener('click', function() {
-          feedbackClique(btnEN, "#C9A66B");
-          selecionarIdioma('en');
-      });
+      btnPT.addEventListener('click', () => { feedbackClique(btnPT, "#8B6F47"); selecionarIdioma('pt'); });
+      btnEN.addEventListener('click', () => { feedbackClique(btnEN, "#C9A66B"); selecionarIdioma('en'); });
 
-
-      // === 3. LÓGICA PRINCIPAL (CENAS) ===
-      
       const corBtn1 = "#8B6F47"; 
       const corBtn2 = "#C9A66B"; 
-
-      function feedbackClique(element, corOriginal) {
-        const plane = element.querySelector("a-plane");
-        plane.setAttribute("color", "#F2F5F9"); 
-        setTimeout(() => {
-            plane.setAttribute("color", corOriginal); 
-        }, 150);
-      }
 
       btn1.addEventListener('click', function (evt) {
         feedbackClique(btn1, corBtn1); 
@@ -170,6 +159,26 @@
         grupo1.setAttribute("visible", false);
         grupo2.setAttribute("visible", true);
       });
+
+      // === 3. LÓGICA DOS LINKS EXTERNOS (AQUI ESTÁ A MÁGICA) ===
+      
+      // Abre o arquivo info.html
+      // Usamos window.open('_blank') para abrir em nova aba e não fechar a câmera
+      
+      btnLink1.addEventListener('click', function() {
+          console.log("Abrindo Info 1");
+          feedbackClique(btnLink1, "#C9A66B");
+          // Abre o arquivo local info.html ancorado na parte da igreja antiga
+          window.open("./info.html#antiga", "_blank");
+      });
+
+      btnLink2.addEventListener('click', function() {
+          console.log("Abrindo Info 2");
+          feedbackClique(btnLink2, "#C9A66B");
+          // Abre o arquivo local info.html ancorado na parte da igreja nova
+          window.open("./info.html#nova", "_blank");
+      });
+
     </script>
   </body>
 </html>
