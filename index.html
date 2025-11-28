@@ -155,16 +155,16 @@
         grupo2.setAttribute("visible", true);
       });
 
-      // === 3. AQUI ESTÁ O SEU LINK DO KUULA ===
       btn360.addEventListener('click', function(evt) {
           console.log("Abrindo Kuula...");
           const plane = btn360.querySelector("a-plane");
           plane.setAttribute("color", "white");
           setTimeout(() => { plane.setAttribute("color", "#C9A66B"); }, 150);
 
-          // Extraí o link direto do código que você mandou
-          // Adicionei fs=1 para abrir em tela cheia direto
-          const url360 = "https://kuula.co/share/collection/7HXQ6?fs=1"; 
+          // ALTERAÇÃO AQUI:
+          // adicionei &vr=1 (Ativa VR) e &gy=1 (Ativa Giroscópio) e &fs=1 (Tela Cheia)
+          // removi o thumbs=1 para limpar a tela
+          const url360 = "https://kuula.co/share/collection/7HXQ6?fs=1&vr=1&gy=1&thumbs=0&chromeless=1&logo=0"; 
           
           window.open(url360, '_blank');
       });
